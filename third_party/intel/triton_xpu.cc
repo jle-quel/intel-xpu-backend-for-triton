@@ -1,5 +1,8 @@
 #include "mlir/Pass/PassManager.h"
+#include "mlir/Dialect/Arith/Transforms/Passes.h"
+
 #include "passes.h"
+#include "pybind_type_casters.h"
 
 #include "llvm/IRReader/IRReader.h"
 #include "llvm/Passes/PassBuilder.h"
@@ -20,10 +23,6 @@
 
 #include "intel/include/Target/SPIRV/SPIRVTranslation.h"
 #include "triton/Tools/Sys/GetEnv.hpp"
-
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/stl_bind.h>
 
 namespace py = pybind11;
 
@@ -102,6 +101,9 @@ void init_triton_intel_passes_ttgpuir(py::module &&m) {
                      gpu::intel::createTritonIntelGPUMaterializeBlockPointer);
   ADD_PASS_WRAPPER_0("add_optimize_reduction_locality",
                      gpu::intel::createTritonIntelGPUOptimizeReductionLocality);
+  ADD_PASS_WRAPPER_OPT_2("add_bf16_emulation",
+                         mlir::arith::createArithEmulateUnsupportedFloats,
+                         llvm::SmallVector<std::string>, std::string);
 }
 
 void init_triton_intel(py::module &&m) {
