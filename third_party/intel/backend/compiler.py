@@ -242,10 +242,6 @@ class XPUBackend(BaseBackend):
         # optimize TTGIR
         intel.passes.ttgpuir.add_coalesce(pm)
         intel.passes.ttgpuir.add_remove_layout_conversions(pm)
-
-        # Adding the `--arith-emulate-unsupported-floats` pass
-        intel.passes.ttgpuir.add_bf16_emulation(pm, [42], "f32")
-
         intel.passes.ttgpuir.add_accelerate_matmul(pm)
         intel.passes.ttgpuir.add_remove_layout_conversions(pm)
         intel.passes.ttgpuir.add_materialize_block_pointer(pm)
@@ -266,6 +262,7 @@ class XPUBackend(BaseBackend):
         passes.common.add_cse(pm)
         passes.common.add_symbol_dce(pm)
         passes.common.add_canonicalizer(pm)
+        intel.passes.arith.add_arith_emulate_unsupported_floats(pm, ["bf16"], "f32")
         pm.run(mod)
         metadata["cluster_dims"] = (cluster_info.clusterDimX, cluster_info.clusterDimY, cluster_info.clusterDimZ)
         return mod

@@ -101,7 +101,10 @@ void init_triton_intel_passes_ttgpuir(py::module &&m) {
                      gpu::intel::createTritonIntelGPUMaterializeBlockPointer);
   ADD_PASS_WRAPPER_0("add_optimize_reduction_locality",
                      gpu::intel::createTritonIntelGPUOptimizeReductionLocality);
-  ADD_PASS_WRAPPER_OPT_2("add_bf16_emulation",
+}
+
+void init_triton_intel_passes_arith(py::module &&m) {
+  ADD_PASS_WRAPPER_OPT_2("add_arith_emulate_unsupported_floats",
                          mlir::arith::createArithEmulateUnsupportedFloats,
                          llvm::SmallVector<std::string>, std::string);
 }
@@ -110,6 +113,7 @@ void init_triton_intel(py::module &&m) {
   auto passes = m.def_submodule("passes");
   init_triton_intel_passes_ttir(passes.def_submodule("ttir"));
   init_triton_intel_passes_ttgpuir(passes.def_submodule("ttgpuir"));
+  init_triton_intel_passes_arith(passes.def_submodule("arith"));
 
   // cluster info
   py::class_<gpu::intel::ClusterInfo>(m, "ClusterInfo")
