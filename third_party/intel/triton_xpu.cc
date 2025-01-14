@@ -1,5 +1,5 @@
-#include "mlir/Pass/PassManager.h"
 #include "mlir/Dialect/Arith/Transforms/Passes.h"
+#include "mlir/Pass/PassManager.h"
 
 #include "passes.h"
 #include "pybind_type_casters.h"
