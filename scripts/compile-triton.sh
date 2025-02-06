@@ -54,9 +54,9 @@ if [ ! -v BASE ]; then
 fi
 
 export PACKAGES_DIR=$BASE/packages
-export LLVM_PROJ=$BASE/llvm
+export LLVM_PROJ=$BASE/llvm-project-master
 export LLVM_PROJ_BUILD=$LLVM_PROJ/build
-export TRITON_PROJ=$BASE/intel-xpu-backend-for-triton
+export TRITON_PROJ=$BASE/triton-xpu-master
 export TRITON_PROJ_BUILD=$TRITON_PROJ/python/build
 
 if [ "$CLEAN" = true ]; then
